@@ -50,17 +50,17 @@ export const Footer: React.FC = () => {
           {/* Column 1: Brand & Mission */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center p-0.5 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
-                <div className="w-full h-full bg-[#050811] rounded-[6px] flex items-center justify-center">
-                  <span className="font-mono text-cyan-400 font-bold text-xs">✕</span>
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center p-0.5 shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                <div className="w-full h-full bg-[#050811] rounded-[9px] flex items-center justify-center">
+                  <span className="font-mono text-cyan-400 font-bold text-xs">FQ</span>
                 </div>
               </div>
-              <span className="text-base font-extrabold tracking-wider text-white uppercase">
-                EduX<span className="text-cyan-400">.</span>Intel
+              <span className="text-lg font-black tracking-tight text-white">
+                FQore<span className="text-cyan-400">.</span>
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-400 max-w-sm">
-              An institutional-grade educational ecosystem providing deep business models, equity research, macroeconomic frameworks, and downloadable financial models.
+              An institutional-grade intelligence ecosystem providing deconstructed business models, equity research, macroeconomic frameworks, and downloadable financial models.
             </p>
 
             {/* Newsletter Input */}
@@ -193,7 +193,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} EduX Intel Platform. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} FQore Intelligence Platform. All rights reserved.</p>
           <div className="flex gap-6">
             <span>Security Protected</span>
             <span>REST API Verified</span>

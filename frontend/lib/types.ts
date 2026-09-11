@@ -115,6 +115,8 @@ export interface Content {
   bookmarkCount: number;
   readTimeMinutes: number;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  isPaywalled?: boolean;
+  price?: number;
   structuredDetails?: StructuredDetails;
   seoTitle?: string;
   seoDescription?: string;

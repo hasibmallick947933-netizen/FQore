@@ -278,17 +278,15 @@ export default function ContentDetailPage() {
 
             {/* If unlocked, allow direct download. If locked, trigger Razorpay Paywall! */}
             {isUnlocked ? (
-              content.mediaUrl && (
-                <a
-                  href={content.mediaUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="btn-chrome px-6 py-3 rounded-xl text-xs font-semibold flex items-center gap-2 shrink-0"
-                >
-                  <Download className="w-4 h-4" /> Download Resource
-                </a>
-              )
+              <a
+                href={content.mediaUrl || '/FQore_Trading_Blueprint.pdf'}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="btn-chrome px-6 py-3 rounded-xl text-xs font-semibold flex items-center gap-2 shrink-0"
+              >
+                <Download className="w-4 h-4" /> Download Resource
+              </a>
             ) : (
               <button
                 onClick={() => setPaywallOpen(true)}

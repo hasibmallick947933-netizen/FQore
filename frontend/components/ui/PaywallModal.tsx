@@ -16,6 +16,8 @@ import {
   CreditCard,
 } from 'lucide-react';
 
+import { DEFAULT_PLANS } from '@/lib/constants';
+
 interface PaywallModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -37,10 +39,10 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   targetTitle,
   contentId,
 }) => {
-  const [plans, setPlans] = useState<Plan[]>([]);
-  const [selectedPlanId, setSelectedPlanId] = useState<string>('');
+  const [plans, setPlans] = useState<Plan[]>(DEFAULT_PLANS);
+  const [selectedPlanId, setSelectedPlanId] = useState<string>('6aa3c900e4017433da625f4f');
   const [customerEmail, setCustomerEmail] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [processing, setProcessing] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -62,19 +64,17 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   };
 
   const loadPlans = async () => {
-    setLoading(true);
     try {
       const res = await api.get<{ success: boolean; plans: Plan[] }>('/plans');
-      setPlans(res.plans || []);
-      // Default select Growth or second plan or first
-      const defaultPlan = res.plans.find((p) => p.popular) || res.plans[1] || res.plans[0];
-      if (defaultPlan) {
-        setSelectedPlanId(defaultPlan._id);
+      if (res.plans && res.plans.length > 0) {
+        setPlans(res.plans);
+        const defaultPlan = res.plans.find((p) => p.popular) || res.plans[1] || res.plans[0];
+        if (defaultPlan) {
+          setSelectedPlanId(defaultPlan._id);
+        }
       }
     } catch (err: any) {
-      setErrorMsg('Failed to load pricing tiers.');
-    } finally {
-      setLoading(false);
+      console.warn('Using default plans in PaywallModal');
     }
   };
 
@@ -132,7 +132,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: 'EduX Intel Academy',
+        name: 'FQore Intelligence',
         description: `Unlock ${orderData.planName}`,
         order_id: orderData.orderId,
         prefill: {

@@ -10,12 +10,12 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
-  title: 'EduX Intel | Educational Business & Stock Market Intelligence',
+  title: 'FQore | Institutional Business & Market Intelligence',
   description:
     'Institutional-grade educational platform deconstructing business models, equity research, valuation frameworks, price action, and downloadable financial models.',
   openGraph: {
-    title: 'EduX Intel | Business & Stock Market Academy',
-    description: 'Learn Business. Understand Markets. Think Smarter.',
+    title: 'FQore | Business & Stock Market Intelligence',
+    description: 'Learn Business. Understand Markets. Advance Your Edge.',
     type: 'website',
   },
 };

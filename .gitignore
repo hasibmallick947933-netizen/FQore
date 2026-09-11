@@ -47,6 +47,8 @@ Thumbs.db
 # Large binary media and extraction frames
 *.mp4
 video_frames/
+/page.jpeg
+/FQore_Trading_Blueprint.pdf
 
 # Vercel deployment cache
 .vercel/

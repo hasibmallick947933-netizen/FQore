@@ -15,6 +15,7 @@ import {
   User as UserIcon,
   Layers,
   ChevronDown,
+  Sparkles,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -40,17 +41,17 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center p-0.5 shadow-[0_0_15px_rgba(34,211,238,0.5)]">
-              <div className="w-full h-full bg-[#050811] rounded-[7px] flex items-center justify-center">
-                <span className="font-mono text-cyan-400 font-black text-sm">✕</span>
+            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center p-0.5 shadow-[0_0_20px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition-all">
+              <div className="w-full h-full bg-[#050811] rounded-[10px] flex items-center justify-center">
+                <span className="font-mono text-cyan-400 font-black text-base tracking-tighter">FQ</span>
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-extrabold tracking-wider text-white group-hover:text-cyan-300 transition-colors uppercase">
-                EduX<span className="text-cyan-400">.</span>Intel
+              <span className="text-xl font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors">
+                FQore<span className="text-cyan-400">.</span>
               </span>
-              <span className="text-[10px] tracking-widest text-slate-400 uppercase -mt-1 font-mono">
-                Financial & Business Academy
+              <span className="text-[9px] tracking-widest text-slate-400 uppercase -mt-1 font-mono font-semibold">
+                Intelligence & Academy
               </span>
             </div>
           </Link>
@@ -152,10 +153,11 @@ export const Navbar: React.FC = () => {
                   Log In
                 </Link>
                 <Link
-                  href="/register"
-                  className="btn-chrome text-xs px-4 py-1.5 rounded-lg inline-flex items-center gap-1 font-semibold"
+                  href="/pricing"
+                  className="btn-gradient-primary text-xs px-4 py-2 rounded-xl inline-flex items-center gap-1.5 font-semibold shadow-[0_0_20px_rgba(99,102,241,0.4)]"
                 >
-                  Join Academy
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Get Started
                 </Link>
               </div>
             )}

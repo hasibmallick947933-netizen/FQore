@@ -16,9 +16,11 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 
+import { DEFAULT_PLANS } from '@/lib/constants';
+
 export default function PricingPage() {
-  const [plans, setPlans] = useState<Plan[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [plans, setPlans] = useState<Plan[]>(DEFAULT_PLANS);
+  const [loading, setLoading] = useState(false);
   const [selectedPlanForModal, setSelectedPlanForModal] = useState<string | null>(null);
   const [paywallOpen, setPaywallOpen] = useState(false);
 
@@ -27,14 +29,13 @@ export default function PricingPage() {
   }, []);
 
   const fetchPlans = async () => {
-    setLoading(true);
     try {
       const res = await api.get<{ success: boolean; plans: Plan[] }>('/plans');
-      setPlans(res.plans || []);
+      if (res.plans && res.plans.length > 0) {
+        setPlans(res.plans);
+      }
     } catch (err) {
-      console.error('Failed to load plans:', err);
-    } finally {
-      setLoading(false);
+      console.warn('Using default pricing tiers:', err);
     }
   };
 
