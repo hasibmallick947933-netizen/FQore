@@ -50,7 +50,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
-      {/* 1. Video Hero Section: 3D Chrome Crystal Wave + "WHO WE ARE" (frame_005.jpg & frame_020.jpg) */}
+      {/* 1. Video Hero Section: 3D Chrome Crystal Wave + "GROW YOURSELF" (frame_005.jpg & frame_020.jpg) */}
       <HeroVideoSection />
 
       {/* 2. Vision Section: Grid Matrix with Pulsing Nodes + 01., 02., 03., 04. Cards (frame_040.jpg) */}

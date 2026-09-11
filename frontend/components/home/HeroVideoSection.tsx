@@ -59,7 +59,7 @@ export const HeroVideoSection: React.FC = () => {
           style={{ letterSpacing: '-0.04em' }}
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-slate-100 to-slate-400">
-            WHO WE ARE
+            GROW YOURSELF
           </span>
         </motion.h1>
       </div>
