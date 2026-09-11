@@ -4,7 +4,6 @@ import './globals.css';
 import { AuthProvider } from '@/lib/authContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { DisclaimerBanner } from '@/components/layout/DisclaimerBanner';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
@@ -29,7 +28,6 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${mono.variable} dark`}>
       <body className="min-h-screen flex flex-col bg-[#040711] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
         <AuthProvider>
-          <DisclaimerBanner />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

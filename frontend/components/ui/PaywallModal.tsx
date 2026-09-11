@@ -96,12 +96,40 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
         displayPrice: number;
         planName: string;
         keyId: string;
-        isSimulator: boolean;
+        message?: string;
+        order?: any;
+        isSimulator?: boolean;
+        isMock?: boolean;
       }>('/payments/create-order', {
         planId: selectedPlanId,
         contentId,
-        customerEmail: customerEmail || 'guest@eduxchain.com',
+        customerEmail: customerEmail || 'guest@fqore.in',
       });
+
+      if (!orderData.success) {
+        throw new Error(orderData.message || 'Failed to initialize payment gateway.');
+      }
+
+      // If in Mock / Test fallback mode
+      if (orderData.isMock) {
+        setProcessing(true);
+        const verifyRes = await (api as any).verifyPayment({
+          razorpay_order_id: orderData.order?.id || orderData.orderId,
+          razorpay_payment_id: 'mock_pay_' + Math.random().toString(36).substring(2, 9),
+          razorpay_signature: 'mock_sig_success',
+          contentId,
+        });
+
+        localStorage.setItem('fqore_unlocked_token', verifyRes.receiptToken);
+        localStorage.setItem('fqore_unlocked_plan', verifyRes.planName);
+        localStorage.setItem('edux_unlocked_token', verifyRes.receiptToken);
+        setSuccessMsg(`Payment Confirmed! You unlocked ${verifyRes.planName}.`);
+        setTimeout(() => {
+          onSuccess(verifyRes.receiptToken);
+          onClose();
+        }, 1200);
+        return;
+      }
 
       // If simulated or test simulator
       if (orderData.isSimulator || !window.Razorpay) {
@@ -117,8 +145,9 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
           planId: selectedPlanId,
         });
 
+        localStorage.setItem('fqore_unlocked_token', verifyRes.receiptToken);
+        localStorage.setItem('fqore_unlocked_plan', verifyRes.planName);
         localStorage.setItem('edux_unlocked_token', verifyRes.receiptToken);
-        localStorage.setItem('edux_unlocked_plan', verifyRes.planName);
         setSuccessMsg(`Payment Confirmed! You unlocked ${verifyRes.planName}.`);
         setTimeout(() => {
           onSuccess(verifyRes.receiptToken);
@@ -154,8 +183,9 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               planId: selectedPlanId,
             });
 
+            localStorage.setItem('fqore_unlocked_token', verifyRes.receiptToken);
+            localStorage.setItem('fqore_unlocked_plan', verifyRes.planName);
             localStorage.setItem('edux_unlocked_token', verifyRes.receiptToken);
-            localStorage.setItem('edux_unlocked_plan', verifyRes.planName);
             setSuccessMsg(`Payment Successful! Access unlocked for ${verifyRes.planName}.`);
             setTimeout(() => {
               onSuccess(verifyRes.receiptToken);

@@ -47,7 +47,7 @@ export default function AboutPage() {
             Our Vision For The Future
           </h1>
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
-            EduX Intel was founded to bridge the vast information asymmetry between institutional Wall Street trading desks and independent analysts, entrepreneurs, and students.
+            FQore was founded to bridge the vast information asymmetry between institutional Wall Street trading desks and independent analysts, entrepreneurs, and students.
           </p>
         </div>
 

@@ -37,7 +37,7 @@ export const VisionSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-black border-b border-cyan-500/20 relative overflow-hidden">
+    <section id="how-it-works" className="py-24 bg-black border-b border-cyan-500/20 relative overflow-hidden scroll-mt-20">
       {/* Cyber Wireframe Grid Background (matching frame_040.jpg) */}
       <div className="absolute inset-0 cyber-grid opacity-70 pointer-events-none" />
 

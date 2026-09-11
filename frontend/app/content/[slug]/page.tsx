@@ -46,7 +46,7 @@ export default function ContentDetailPage() {
   useEffect(() => {
     // Check if user has unlocked access via token or role
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('edux_unlocked_token');
+      const token = localStorage.getItem('fqore_unlocked_token') || localStorage.getItem('edux_unlocked_token');
       if (token || user?.role === 'admin') {
         setIsUnlocked(true);
       }

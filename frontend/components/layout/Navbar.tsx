@@ -1,103 +1,234 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
 import {
-  Compass,
   Search,
-  Bookmark,
-  Shield,
   Menu,
   X,
-  LogOut,
-  User as UserIcon,
-  Layers,
   ChevronDown,
-  Sparkles,
+  ArrowUpRight,
+  Shield,
+  Bookmark,
+  LogOut,
+  Layers,
+  TrendingUp,
+  BarChart3,
+  PieChart,
+  BookOpen,
+  Briefcase,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { user, isAdmin, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  const navLinks = [
-    { name: 'Business', href: '/business' },
-    { name: 'Stock Market', href: '/stock-market' },
-    { name: 'Companies', href: '/companies' },
-    { name: 'Investing', href: '/investing' },
-    { name: 'Trading', href: '/trading' },
-    { name: 'Case Studies', href: '/case-studies' },
-    { name: 'Resources', href: '/resources' },
-    { name: 'Pricing', href: '/pricing' },
+  const coursesRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (coursesRef.current && !coursesRef.current.contains(e.target as Node)) {
+        setCoursesDropdownOpen(false);
+      }
+      if (userRef.current && !userRef.current.contains(e.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const courseCategories = [
+    {
+      name: 'Business Models',
+      desc: 'Unit economics, SaaS margins, corporate moats',
+      href: '/business',
+      icon: Briefcase,
+    },
+    {
+      name: 'Stock Market',
+      desc: 'Microstructure, order flow, liquidity pools',
+      href: '/stock-market',
+      icon: TrendingUp,
+    },
+    {
+      name: 'Companies',
+      desc: 'Corporate teardowns & revenue autopsies',
+      href: '/companies',
+      icon: BarChart3,
+    },
+    {
+      name: 'Investing & DCF',
+      desc: 'Valuation frameworks & sensitivity models',
+      href: '/investing',
+      icon: PieChart,
+    },
+    {
+      name: 'Trading Systems',
+      desc: 'Execution mechanics & algorithmic setups',
+      href: '/trading',
+      icon: Layers,
+    },
+    {
+      name: 'Case Studies',
+      desc: 'Forensic accounting & market autopsies',
+      href: '/case-studies',
+      icon: BookOpen,
+    },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#040711]/85 backdrop-blur-xl border-b border-cyan-500/15">
+    <header className="sticky top-0 z-50 bg-[#040711]/85 backdrop-blur-xl border-b border-white/10 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center p-0.5 shadow-[0_0_20px_rgba(99,102,241,0.5)] group-hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition-all">
-              <div className="w-full h-full bg-[#050811] rounded-[10px] flex items-center justify-center">
-                <span className="font-mono text-cyan-400 font-black text-base tracking-tighter">FQ</span>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors">
-                FQore<span className="text-cyan-400">.</span>
-              </span>
-              <span className="text-[9px] tracking-widest text-slate-400 uppercase -mt-1 font-mono font-semibold">
-                Intelligence & Academy
-              </span>
-            </div>
+          {/* Left Brand: Minimalist '✕ FQore' matching frame_005.jpg */}
+          <Link href="/" className="flex items-center gap-2 group select-none">
+            <span className="text-cyan-400 font-mono text-lg font-light group-hover:scale-125 group-hover:text-cyan-300 transition-all duration-300">
+              ✕
+            </span>
+            <span className="font-sans font-bold text-lg tracking-tight text-white group-hover:text-cyan-300 transition-colors uppercase">
+              FQore
+            </span>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {navLinks.map((link) => {
-              const isActive = pathname.startsWith(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all ${
-                    isActive
-                      ? 'bg-cyan-500/10 text-cyan-300 border border-cyan-400/40 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+          {/* Center Navigation Links: matching video frame_005.jpg & frame_020.jpg */}
+          <nav className="hidden md:flex items-center gap-2 lg:gap-4">
+            {/* [ About Us ] framed in wireframe box */}
+            <Link
+              href="/about"
+              className={`px-3.5 py-1.5 rounded border text-xs font-mono uppercase tracking-wider transition-all ${
+                pathname === '/about'
+                  ? 'border-cyan-400 text-cyan-300 bg-cyan-500/10 shadow-[0_0_15px_rgba(34,211,238,0.25)]'
+                  : 'border-white/35 text-white hover:border-cyan-400 hover:text-cyan-300 hover:bg-white/5'
+              }`}
+            >
+              About Us
+            </Link>
+
+            {/* How It Works */}
+            <Link
+              href="/#how-it-works"
+              className="px-2.5 py-1.5 text-xs font-mono uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
+            >
+              How It Works
+            </Link>
+
+            {/* Courses Dropdown */}
+            <div
+              ref={coursesRef}
+              className="relative"
+              onMouseEnter={() => setCoursesDropdownOpen(true)}
+              onMouseLeave={() => setCoursesDropdownOpen(false)}
+            >
+              <button
+                onClick={() => setCoursesDropdownOpen(!coursesDropdownOpen)}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-mono uppercase tracking-wider transition-colors ${
+                  coursesDropdownOpen || courseCategories.some((c) => pathname.startsWith(c.href))
+                    ? 'text-cyan-300 font-semibold'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                Courses
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    coursesDropdownOpen ? 'rotate-180 text-cyan-400' : ''
                   }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
+                />
+              </button>
+
+              {/* Dropdown Menu */}
+              {coursesDropdownOpen && (
+                <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-80 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                  <div className="rounded-xl bg-[#080d1d]/95 backdrop-blur-2xl border border-cyan-500/30 p-2 shadow-2xl space-y-1">
+                    <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800">
+                      Educational Curriculum
+                    </div>
+                    {courseCategories.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = pathname.startsWith(item.href);
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setCoursesDropdownOpen(false)}
+                          className={`flex items-start gap-3 p-2.5 rounded-lg transition-colors ${
+                            isActive
+                              ? 'bg-cyan-500/15 border border-cyan-500/30 text-white'
+                              : 'hover:bg-slate-800/60 text-slate-300 hover:text-white'
+                          }`}
+                        >
+                          <div className="p-1.5 rounded-md bg-slate-900 border border-slate-800 text-cyan-400 shrink-0">
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <p className="text-xs font-semibold text-white">{item.name}</p>
+                            <p className="text-[11px] text-slate-400 leading-tight mt-0.5 font-light">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Business PDFs / Resources */}
+            <Link
+              href="/resources"
+              className={`px-2.5 py-1.5 text-xs font-mono uppercase tracking-wider transition-colors ${
+                pathname === '/resources' ? 'text-cyan-300 font-semibold' : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              Business PDFs
+            </Link>
+
+            {/* Pricing */}
+            <Link
+              href="/pricing"
+              className={`px-2.5 py-1.5 text-xs font-mono uppercase tracking-wider transition-colors flex items-center gap-1.5 ${
+                pathname === '/pricing' ? 'text-cyan-300 font-semibold' : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              Pricing
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">
+                ₹59+
+              </span>
+            </Link>
           </nav>
 
-          {/* Right Action Icons & Auth */}
+          {/* Right Action Icons & Buttons: matching video frame_005.jpg */}
           <div className="hidden sm:flex items-center gap-3">
+            {/* Minimal Search Button */}
             <Link
               href="/search"
               aria-label="Global Search"
-              className="p-2 text-slate-400 hover:text-cyan-300 hover:bg-slate-900 rounded-lg border border-slate-800 transition-colors"
+              className="p-2 text-slate-400 hover:text-cyan-300 hover:bg-slate-900/60 rounded-lg transition-colors"
             >
               <Search className="w-4 h-4" />
             </Link>
 
+            {/* User Dropdown / Login */}
             {user ? (
-              <div className="relative">
+              <div ref={userRef} className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-cyan-500/30 text-xs text-slate-200 hover:border-cyan-400 transition-all"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-900/80 border border-cyan-500/30 text-xs text-slate-200 hover:border-cyan-400 transition-all font-mono"
                 >
                   <div className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-[10px]">
                     {user.name.charAt(0)}
                   </div>
-                  <span className="max-w-[100px] truncate">{user.name.split(' ')[0]}</span>
+                  <span className="max-w-[90px] truncate">{user.name.split(' ')[0]}</span>
                   {isAdmin && (
-                    <span className="text-[9px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded uppercase font-mono font-bold">
+                    <span className="text-[9px] bg-cyan-500/20 text-cyan-300 px-1 py-0.5 rounded uppercase font-mono font-bold">
                       Admin
                     </span>
                   )}
@@ -145,32 +276,33 @@ export const Navbar: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/login"
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition-colors"
-                >
-                  Log In
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="btn-gradient-primary text-xs px-4 py-2 rounded-xl inline-flex items-center gap-1.5 font-semibold shadow-[0_0_20px_rgba(99,102,241,0.4)]"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Get Started
-                </Link>
-              </div>
+              <Link
+                href="/login"
+                className="px-2.5 py-1.5 text-xs font-mono uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
+              >
+                Log In
+              </Link>
             )}
+
+            {/* [ Contact Us ↗ ] signature wireframe button matching frame_005.jpg */}
+            <Link
+              href="/contact"
+              className="px-3.5 py-1.5 rounded border border-white/40 text-white hover:border-cyan-400 hover:text-cyan-300 text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] bg-black/40"
+            >
+              Contact Us
+              <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400" />
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle Button */}
-          <div className="flex sm:hidden items-center gap-2">
+          <div className="flex md:hidden items-center gap-2">
             <Link href="/search" className="p-2 text-slate-400">
               <Search className="w-5 h-5" />
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-slate-300 hover:text-white"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -179,17 +311,59 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-800/80 py-4 space-y-2">
-            {navLinks.map((link) => (
+          <div className="md:hidden border-t border-slate-800/80 py-4 space-y-2">
+            <Link
+              href="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-mono uppercase text-white hover:text-cyan-300"
+            >
+              [ About Us ]
+            </Link>
+            <Link
+              href="/#how-it-works"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-mono uppercase text-slate-300 hover:text-white"
+            >
+              How It Works
+            </Link>
+
+            <div className="px-4 py-1 text-[11px] font-mono uppercase text-cyan-400 tracking-wider">
+              Courses & Disciplines
+            </div>
+            {courseCategories.map((item) => (
               <Link
-                key={link.href}
-                href={link.href}
+                key={item.href}
+                href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-900 rounded-lg"
+                className="block pl-7 pr-4 py-1.5 text-xs text-slate-300 hover:text-white"
               >
-                {link.name}
+                • {item.name}
               </Link>
             ))}
+
+            <Link
+              href="/resources"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-mono uppercase text-slate-300 hover:text-white"
+            >
+              Business PDFs
+            </Link>
+
+            <Link
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-mono uppercase text-cyan-300 hover:text-cyan-200"
+            >
+              Pricing (₹59+)
+            </Link>
+
+            <Link
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-mono uppercase text-white hover:text-cyan-300"
+            >
+              [ Contact Us ↗ ]
+            </Link>
 
             <div className="pt-4 border-t border-slate-800 flex flex-col gap-2 px-4">
               {user ? (
@@ -221,20 +395,20 @@ export const Navbar: React.FC = () => {
                   </button>
                 </>
               ) : (
-                <div className="flex gap-2">
+                <div className="flex gap-2 pt-2">
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-1/2 text-center py-2 text-sm border border-slate-700 rounded-lg text-white"
+                    className="w-1/2 text-center py-2 text-xs font-mono uppercase border border-white/30 rounded text-white"
                   >
                     Log In
                   </Link>
                   <Link
-                    href="/register"
+                    href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-1/2 text-center py-2 text-sm btn-chrome rounded-lg font-semibold"
+                    className="w-1/2 text-center py-2 text-xs font-mono uppercase border border-cyan-400 text-cyan-300 rounded"
                   >
-                    Register
+                    Contact ↗
                   </Link>
                 </div>
               )}
@@ -245,3 +419,4 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
+
