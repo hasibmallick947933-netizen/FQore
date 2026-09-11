@@ -2,202 +2,156 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
-import { Send, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Sparkles, ArrowUpRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubscribe = async (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    setErrorMsg('');
-    try {
-      await api.post('/public/newsletter/subscribe', { email });
+    if (email) {
       setSubscribed(true);
       setEmail('');
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Subscription failed');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <footer className="border-t border-cyan-500/15 bg-[#03060f] relative overflow-hidden text-slate-400">
-      {/* Ambient background glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-48 bg-cyan-500/5 blur-[100px] pointer-events-none" />
-
-      {/* Mandatory Regulatory Educational Disclaimer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 border-b border-slate-900">
-        <div className="rounded-xl border border-cyan-500/20 bg-slate-950/60 p-4 sm:p-5 flex items-start gap-3">
-          <ShieldAlert className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed text-slate-400">
-            <span className="font-semibold text-cyan-300 uppercase tracking-wider block mb-0.5">
-              Financial Education & Regulatory Disclaimer
-            </span>
-            Content on this platform is for educational and illustrative purposes only and should not be considered financial, investment, legal, or tax advice. We make no representations or warranties as to the accuracy or completeness of the materials. Investing in securities involves substantial risk of loss. Always consult a certified financial planner or registered investment advisor before making capital allocation decisions.
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Column 1: Brand & Mission */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center p-0.5 shadow-[0_0_15px_rgba(99,102,241,0.4)]">
-                <div className="w-full h-full bg-[#050811] rounded-[9px] flex items-center justify-center">
+    <footer className="bg-black text-slate-400 border-t border-cyan-500/20 relative overflow-hidden select-none">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-900">
+          {/* Brand & Movement Slogan (matching frame_160.jpg) */}
+          <div className="lg:col-span-6 space-y-4">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center p-0.5 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                <div className="w-full h-full bg-black rounded-[6px] flex items-center justify-center">
                   <span className="font-mono text-cyan-400 font-bold text-xs">FQ</span>
                 </div>
               </div>
-              <span className="text-lg font-black tracking-tight text-white">
+              <span className="text-xl font-black tracking-tight text-white uppercase group-hover:text-cyan-300 transition-colors">
                 FQore<span className="text-cyan-400">.</span>
               </span>
             </Link>
-            <p className="text-xs leading-relaxed text-slate-400 max-w-sm">
-              An institutional-grade intelligence ecosystem providing deconstructed business models, equity research, macroeconomic frameworks, and downloadable financial models.
+
+            <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white max-w-md leading-tight pt-2">
+              DISCOVER OUR EDUCATIONAL REVOLUTION MOVEMENT
+            </h3>
+            <p className="text-xs text-slate-400 max-w-md font-light leading-relaxed">
+              An institutional-grade intelligence platform providing deep business revenue models, equity research, macroeconomic frameworks, and downloadable financial models.
             </p>
-
-            {/* Newsletter Input */}
-            <form onSubmit={handleSubscribe} className="pt-2">
-              <span className="text-xs font-semibold text-slate-200 block mb-2">
-                Subscribe to Weekly Intelligence Briefing
-              </span>
-              <div className="flex gap-2 max-w-sm">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter institutional email..."
-                  required
-                  className="w-full px-3.5 py-2 text-xs bg-slate-900 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-cyan-400 transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-chrome px-4 py-2 rounded-lg text-xs font-semibold shrink-0"
-                >
-                  {loading ? '...' : <Send className="w-3.5 h-3.5" />}
-                </button>
-              </div>
-              {subscribed && (
-                <div className="flex items-center gap-1.5 text-xs text-emerald-400 mt-2 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Subscribed successfully!
-                </div>
-              )}
-              {errorMsg && <p className="text-xs text-red-400 mt-2">{errorMsg}</p>}
-            </form>
           </div>
 
-          {/* Column 2: Hubs */}
-          <div className="space-y-3 text-xs">
-            <h4 className="font-mono uppercase font-semibold text-cyan-300 tracking-wider">
-              Educational Hubs
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/business" className="hover:text-cyan-300 transition-colors">
-                  Business Models & Scaling
-                </Link>
-              </li>
-              <li>
-                <Link href="/stock-market" className="hover:text-cyan-300 transition-colors">
-                  Stock Market Fundamentals
-                </Link>
-              </li>
-              <li>
-                <Link href="/companies" className="hover:text-cyan-300 transition-colors">
-                  Company Deep Dives
-                </Link>
-              </li>
-              <li>
-                <Link href="/investing" className="hover:text-cyan-300 transition-colors">
-                  Valuation & DCF Models
-                </Link>
-              </li>
-              <li>
-                <Link href="/trading" className="hover:text-cyan-300 transition-colors">
-                  Price Action & Candlesticks
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Quick Links, Contact Us, Follow Us (matching frame_160.jpg) */}
+          <div className="lg:col-span-6 grid grid-cols-3 gap-6 text-xs">
+            <div>
+              <h4 className="font-bold text-white uppercase tracking-wider mb-4 text-[11px] font-mono">
+                Quick Links
+              </h4>
+              <ul className="space-y-2.5 font-light">
+                <li>
+                  <Link href="/about" className="hover:text-cyan-300 transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pricing" className="hover:text-cyan-300 transition-colors">
+                    Pricing Plans
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/business" className="hover:text-cyan-300 transition-colors">
+                    Business Models
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/stock-market" className="hover:text-cyan-300 transition-colors">
+                    Stock Market
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/resources" className="hover:text-cyan-300 transition-colors">
+                    Downloadables
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Column 3: Analyses */}
-          <div className="space-y-3 text-xs">
-            <h4 className="font-mono uppercase font-semibold text-cyan-300 tracking-wider">
-              Research & Models
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/case-studies" className="hover:text-cyan-300 transition-colors">
-                  Business Case Studies
-                </Link>
-              </li>
-              <li>
-                <Link href="/market-analysis" className="hover:text-cyan-300 transition-colors">
-                  Macro Trends & Liquidity
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources?type=excel" className="hover:text-cyan-300 transition-colors">
-                  Excel Financial Templates
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources?type=pdf" className="hover:text-cyan-300 transition-colors">
-                  Forensics & PDF Guides
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources?type=video" className="hover:text-cyan-300 transition-colors">
-                  Modeling Video Walkthroughs
-                </Link>
-              </li>
-            </ul>
-          </div>
+            <div>
+              <h4 className="font-bold text-white uppercase tracking-wider mb-4 text-[11px] font-mono">
+                Contact Us
+              </h4>
+              <ul className="space-y-2.5 font-light">
+                <li>
+                  <Link href="/contact" className="hover:text-cyan-300 transition-colors">
+                    Contact Advisory
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="hover:text-cyan-300 transition-colors">
+                    FAQ
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/admin" className="hover:text-cyan-300 transition-colors">
+                    Admin CMS
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Column 4: Platform & Support */}
-          <div className="space-y-3 text-xs">
-            <h4 className="font-mono uppercase font-semibold text-cyan-300 tracking-wider">
-              Academy
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/about" className="hover:text-cyan-300 transition-colors">
-                  About the Platform
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-cyan-300 transition-colors">
-                  Advisory & Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="hover:text-cyan-300 transition-colors">
-                  Learner Portal Login
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="hover:text-cyan-300 transition-colors">
-                  Admin CMS Gateway
-                </Link>
-              </li>
-            </ul>
+            <div>
+              <h4 className="font-bold text-white uppercase tracking-wider mb-4 text-[11px] font-mono">
+                Follow Us
+              </h4>
+              <ul className="space-y-2.5 font-light">
+                <li>
+                  <a href="#" className="hover:text-cyan-300 transition-colors">
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-cyan-300 transition-colors">
+                    X.com
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-cyan-300 transition-colors">
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-cyan-300 transition-colors">
+                    YouTube
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} FQore Intelligence Platform. All rights reserved.</p>
+        {/* GIANT ARCHITECTURAL WATERMARK (matching frame_160.jpg "EDUXCHAIN" watermark) */}
+        <div className="w-full py-8 text-center select-none pointer-events-none overflow-hidden">
+          <div
+            className="text-7xl sm:text-9xl md:text-[13rem] lg:text-[16rem] font-black uppercase tracking-tight text-white leading-none opacity-[0.06] hover:opacity-10 transition-opacity"
+            style={{
+              letterSpacing: '0.04em',
+              WebkitTextStroke: '1px rgba(255, 255, 255, 0.15)',
+            }}
+          >
+            FQORE
+          </div>
+        </div>
+
+        {/* Bottom Legal & Copyright (matching frame_160.jpg) */}
+        <div className="pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4 font-light">
+          <p>© {new Date().getFullYear()} FQore. All rights reserved.</p>
           <div className="flex gap-6">
-            <span>Security Protected</span>
-            <span>REST API Verified</span>
-            <span>MongoDB Atlas Powered</span>
+            <Link href="/privacy" className="hover:text-slate-400 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-slate-400 transition-colors">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

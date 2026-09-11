@@ -45,10 +45,11 @@ Thumbs.db
 *.swo
 
 # Large binary media and extraction frames
-*.mp4
+/original-fa041707fcd16678a517a7d1d72ce271.mp4
 video_frames/
 /page.jpeg
 /FQore_Trading_Blueprint.pdf
+!frontend/public/hero-video.mp4
 
 # Vercel deployment cache
 .vercel/
