@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Network, Sparkles, Building2, TrendingUp, LineChart, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface TeamTrack {
   id: string;
@@ -51,29 +50,41 @@ export const MeetPeopleSection: React.FC = () => {
     },
   ];
 
-  const activeTrack = tracks.find((t) => t.id === activeId) || tracks[0];
-
   return (
-    <section className="py-24 bg-black border-b border-cyan-500/20 relative overflow-hidden">
+    <section className="py-28 bg-black border-b border-cyan-500/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header (matching frame_100.jpg) */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        {/* Section Header with Scroll InView Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white mb-3">
             MEET PEOPLE BEHIND
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 font-light">
             We’re financial analysts, macro researchers, and practitioners committed to making education actionable for all.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Interactive Rows (matching frame_120.jpg) */}
+        {/* 4 Interactive Rows with Staggered Scroll InView */}
         <div className="space-y-3">
-          {tracks.map((track) => {
+          {tracks.map((track, idx) => {
             const isActive = track.id === activeId;
 
             return (
-              <div
+              <motion.div
                 key={track.id}
+                initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.25 }}
+                transition={{
+                  duration: 0.65,
+                  delay: idx * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 onMouseEnter={() => setActiveId(track.id)}
                 onClick={() => setActiveId(track.id)}
                 className={`relative rounded-xl transition-all duration-300 cursor-pointer overflow-hidden border ${
@@ -128,7 +139,7 @@ export const MeetPeopleSection: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

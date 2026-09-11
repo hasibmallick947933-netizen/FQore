@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Plan } from '@/lib/types';
 import { DEFAULT_PLANS } from '@/lib/constants';
 import { PaywallModal } from '@/components/ui/PaywallModal';
@@ -10,7 +11,6 @@ import {
   CheckCircle2,
   ShieldCheck,
   Zap,
-  ArrowRight,
   Lock,
 } from 'lucide-react';
 
@@ -29,13 +29,19 @@ export const HomePricingSection: React.FC<HomePricingSectionProps> = ({ initialP
   };
 
   return (
-    <section className="py-20 lg:py-28 border-b border-cyan-500/15 relative overflow-hidden" id="pricing">
+    <section className="py-24 lg:py-32 border-b border-cyan-500/15 relative overflow-hidden" id="pricing">
       {/* Background Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 blur-[160px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        {/* Header with Scroll InView */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/50 border border-indigo-500/30 text-xs font-mono uppercase text-indigo-300 mb-4 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             Simple Transparent Pricing
@@ -46,16 +52,25 @@ export const HomePricingSection: React.FC<HomePricingSectionProps> = ({ initialP
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
             Zero recurring subscription lock-ins. Pay once per tier and get immediate, permanent access to downloadable business PDFs and Excel financial models.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 3 Pricing Cards (Starter ₹59, Growth ₹99, Premium ₹149) */}
+        {/* 3 Pricing Cards (Starter ₹59, Growth ₹99, Premium ₹149) with Staggered Scroll Animations */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-14">
           {plans.map((plan, idx) => {
             const isPopular = plan.popular || idx === 1;
 
             return (
-              <div
+              <motion.div
                 key={plan._id || idx}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{
+                  duration: 0.7,
+                  delay: idx * 0.12,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
                 className={`relative rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 ${
                   isPopular
                     ? 'border-2 border-cyan-400 bg-gradient-to-b from-cyan-950/40 via-slate-950/80 to-[#070c1e] shadow-[0_0_40px_rgba(34,211,238,0.25)] md:-translate-y-2'
@@ -106,7 +121,7 @@ export const HomePricingSection: React.FC<HomePricingSectionProps> = ({ initialP
                 <div className="pt-6 border-t border-slate-800/80">
                   <button
                     onClick={() => handleSelectPlan(plan._id)}
-                    className={`w-full py-3.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+                    className={`w-full py-3.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       isPopular
                         ? 'btn-gradient-primary shadow-[0_0_20px_rgba(99,102,241,0.5)]'
                         : 'bg-slate-900 hover:bg-slate-850 text-white border border-slate-700/80 hover:border-cyan-400/50'
@@ -116,7 +131,7 @@ export const HomePricingSection: React.FC<HomePricingSectionProps> = ({ initialP
                     <span>Get {plan.name} (₹{plan.price})</span>
                   </button>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Box, Shield, Zap, RefreshCw } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Box, Shield, Zap } from 'lucide-react';
 
 export const DifferentSection: React.FC = () => {
   const diffItems = [
@@ -24,43 +25,62 @@ export const DifferentSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-black border-b border-cyan-500/20 relative overflow-hidden">
+    <section className="py-28 bg-black border-b border-cyan-500/20 relative overflow-hidden">
       {/* Circuit Trace Line Background (matching frame_060.jpg) */}
       <div className="absolute inset-0 cyber-grid opacity-50 pointer-events-none" />
 
-      {/* SVG Neon Circuit Line connecting nodes */}
+      {/* SVG Neon Circuit Line connecting nodes with scroll-triggered drawing */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40">
-        <path
-          d="M 100 200 L 300 200 L 300 120 L 600 120 L 600 250 L 900 250 L 1200 250"
+        <motion.path
+          d="M 80 220 L 320 220 L 320 110 L 640 110 L 640 260 L 960 260 L 1320 260"
           stroke="#22d3ee"
           strokeWidth="1.5"
           fill="none"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 1.8, ease: 'easeInOut' }}
         />
-        <circle cx="300" cy="120" r="4" fill="#22d3ee" className="animate-pulse" />
-        <circle cx="600" cy="250" r="4" fill="#ffffff" className="animate-pulse" />
-        <circle cx="900" cy="250" r="4" fill="#22d3ee" className="animate-pulse" />
+        <circle cx="320" cy="110" r="4" fill="#22d3ee" className="animate-pulse" />
+        <circle cx="640" cy="260" r="4" fill="#ffffff" className="animate-pulse" />
+        <circle cx="960" cy="260" r="4" fill="#22d3ee" className="animate-pulse" />
       </svg>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header (matching frame_080.jpg) */}
-        <div className="mb-16">
+        {/* Section Header with Scroll InView Animation */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16"
+        >
           <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white">
             HOW WE’RE <br />
             <span className="text-slate-400">DIFFERENT</span>
           </h2>
-        </div>
+        </motion.div>
 
-        {/* Feature Cards Grid (matching frame_080.jpg) */}
+        {/* Feature Cards Grid with Staggered Scroll Animations */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {diffItems.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div
+              <motion.div
                 key={idx}
-                className="rounded-2xl p-8 bg-[#050813]/80 border border-slate-800/80 hover:border-cyan-500/40 transition-all duration-300 backdrop-blur-md flex flex-col justify-between group"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{
+                  duration: 0.7,
+                  delay: idx * 0.15,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
+                className="rounded-2xl p-8 bg-[#050813]/85 border border-slate-800/80 hover:border-cyan-500/50 transition-all duration-300 backdrop-blur-md flex flex-col justify-between group shadow-xl hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]"
               >
                 {/* Wireframe Rotating / Glowing Icon (matching frame_080.jpg) */}
-                <div className="w-14 h-14 rounded-full border border-cyan-500/40 bg-cyan-950/20 flex items-center justify-center text-cyan-300 mb-6 shadow-[0_0_20px_rgba(34,211,238,0.25)] group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-full border border-cyan-500/40 bg-cyan-950/30 flex items-center justify-center text-cyan-300 mb-6 shadow-[0_0_20px_rgba(34,211,238,0.25)] group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
                   <Icon className="w-6 h-6" />
                 </div>
                 <div>
@@ -71,24 +91,25 @@ export const DifferentSection: React.FC = () => {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Bottom Callout & Metallic "Learn More ↗" Button (matching frame_080.jpg) */}
-        <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-          <p className="text-xs sm:text-sm text-slate-400 max-w-lg font-light leading-relaxed">
-            Education is often restricted by expensive paywalls and complex credentialing. FQore aims to change this by creating high-leverage, accessible business and market intelligence for everyone.
-          </p>
-
+        {/* Brushed Metallic Button (matching frame_080.jpg "Learn More ↗") */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.4 }}
+          transition={{ duration: 0.6 }}
+        >
           <Link href="/about">
-            <button className="btn-chrome px-7 py-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-105 transition-transform shrink-0">
+            <button className="btn-chrome px-7 py-3 rounded-lg text-xs font-mono uppercase tracking-wider flex items-center gap-2 hover:scale-105 transition-transform">
               <span>Learn More</span>
               <ArrowUpRight className="w-4 h-4 text-slate-900" />
             </button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
