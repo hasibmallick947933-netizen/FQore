@@ -34,8 +34,8 @@ export default function LoginPage() {
 
   const fillCredentials = (role: 'admin' | 'student') => {
     if (role === 'admin') {
-      setEmail('admin@eduxchain.com');
-      setPassword('Admin@123456');
+      setEmail('fqorein@gmail.com');
+      setPassword('sunny005');
     } else {
       setEmail('student@eduxchain.com');
       setPassword('Student@123456');
@@ -79,7 +79,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@eduxchain.com"
+                  placeholder="fqorein@gmail.com"
                   className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-900/90 border border-slate-800 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
                 />
               </div>

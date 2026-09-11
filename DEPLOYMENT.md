@@ -94,8 +94,8 @@ Cloudinary stores all uploaded images, video masterclasses, PDF guides, and Exce
 1. Open your Vercel URL in a browser.
 2. Verify that homepage loads the futuristic cyber theme, ambient glow, and curriculum tracks.
 3. Click **Log In** (`/login`) and authenticate using the seeded credentials:
-   - Email: `admin@eduxchain.com`
-   - Password: `Admin@123456`
+   - Email: `fqorein@gmail.com`
+   - Password: `sunny005`
 4. Access `/admin` to verify:
    - KPI metrics and active modules
    - Media upload to Cloudinary

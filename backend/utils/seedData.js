@@ -18,17 +18,17 @@ const seedDatabase = async () => {
     console.log('--- Seeding Initial Educational & Financial Content ---');
 
     // 1. Seed Users
-    let adminUser = await User.findOne({ email: 'admin@eduxchain.com' });
+    let adminUser = await User.findOne({ email: 'fqorein@gmail.com' });
     if (!adminUser) {
       adminUser = await User.create({
-        name: 'Alexander Vance (Chief Admin)',
-        email: 'admin@eduxchain.com',
-        password: 'Admin@123456',
+        name: 'FQore Administrator',
+        email: 'fqorein@gmail.com',
+        password: 'sunny005',
         role: 'admin',
-        bio: 'Platform founder, institutional equity analyst and macro researcher.',
+        bio: 'Platform founder, institutional equity analyst and educational director.',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
       });
-      console.log('Created Admin user: admin@eduxchain.com');
+      console.log('Created Admin user: fqorein@gmail.com');
     }
 
     let studentUser = await User.findOne({ email: 'student@eduxchain.com' });

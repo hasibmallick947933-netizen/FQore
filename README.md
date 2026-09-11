@@ -94,7 +94,7 @@ Visit **`http://localhost:3000`** in your browser!
 
 | Role | Email | Password | Access Rights |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@eduxchain.com` | `Admin@123456` | Complete CMS Access (`/admin`) |
+| **Administrator** | `fqorein@gmail.com` | `sunny005` | Complete CMS Access (`/admin`) |
 | **Student / User** | `student@eduxchain.com` | `Student@123456` | Bookmarks, Progress Tracking |
 
 > **Tip**: The login screen (`/login`) includes one-click demo credential buttons for instant testing.
